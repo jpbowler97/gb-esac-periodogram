@@ -11,6 +11,7 @@ final class PeriodogramBinner {
     private static Logger logger  = Logger.getLogger(PeriodogramBinner.class);
 
     static Periodogram rebin(Periodogram psd, double rebinFactor, String binningType) throws BinningException {
+    	// scales binwidth sizes by rebinFactor and rebins in specified binningType
 	if ( rebinFactor <= 1 ) {
 	    throw new BinningException("The rebinning factor must be > 1");
 	}
