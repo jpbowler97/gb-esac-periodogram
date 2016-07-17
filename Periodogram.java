@@ -68,6 +68,7 @@ public abstract class Periodogram {
      * @param binWidth a <code>double</code> value
      */
     protected void setBinWidth(double binWidth) {
+    	// defines arrays for binned data with constant bin width
 	this.binWidth = binWidth;
 	this.binWidthIsConstant = true;
 	//  Define the binWidths, halfBinWidths and binEdges
@@ -91,6 +92,7 @@ public abstract class Periodogram {
      * @param binWidths a <code>double[]</code> value
      */
     protected void setBinWidths(double[] binWidths) {
+    	// defines arrays for binned data with non-constant bin width
 	this.binWidths = Arrays.copyOf(binWidths, binWidths.length);
 	//  Check if binning is constant
 	double var = BasicStats.getVariance(binWidths);
@@ -162,6 +164,7 @@ public abstract class Periodogram {
     }
 
     public Periodogram add(double constant) {
+    	// shifts periodogram vertically by constant
 	double[] newPowers = new double[this.nBins()];
 	for ( int i=0; i < this.nBins(); i++ ) {
 	    newPowers[i] = this.powers[i] + constant;
@@ -170,6 +173,7 @@ public abstract class Periodogram {
     }
 
     public Periodogram add(Periodogram periodogram) throws PeriodogramException {
+    	// adds the data from 2 periodograms (requires combatability)
 	if ( this.nBins != periodogram.nBins() ) {
 	    throw new PeriodogramException("Cannot combine periodograms: different number of bins ("+this.nBins+" != "+periodogram.nBins()+").");
 	}
@@ -189,6 +193,7 @@ public abstract class Periodogram {
     }
 
     public Periodogram subtract(Periodogram periodogram) throws PeriodogramException {
+    	// splits data into 2 periodograms (requires compatability)
 	if ( this.nBins != periodogram.nBins() ) {
 	    throw new PeriodogramException("Cannot combine periodograms: different number of bins ("+this.nBins+" != "+periodogram.nBins()+").");
 	}
@@ -203,6 +208,7 @@ public abstract class Periodogram {
     }
 
     public Periodogram scale(double constant) {
+    	// scales data by constant
 	logger.info("Scaling periodogram by factor: "+constant);
 	double[] newPowers = new double[this.nBins()];
 	for ( int i=0; i < this.nBins(); i++ ) {
@@ -212,6 +218,7 @@ public abstract class Periodogram {
     }
 
     public Periodogram scale(double[] scalingFactors) {
+    	// scales data by scalingFactors
 	logger.info("Scaling each power by different scaling factor");
 	double[] newPowers = new double[this.nBins()];
 	for ( int i=0; i < this.nBins(); i++ ) {
