@@ -47,7 +47,7 @@ public final class PeriodogramMaker {
 	logger.info("  Window function: "+windowName);
 	logger.info("  Sampling factor: "+samplingFactor);
 	logger.warn("  Treatment assumes uniform sampling with equal bins");
-	if ( samplingFactor > 1 ) {
+	if ( samplingFactor > 1 ) { // ensures sampling factor is 2^n
 	    double powerOfTwo = Math.log(samplingFactor)/Math.log(2);
 	    double integerPart = Math.floor(powerOfTwo);
 	    double diff = powerOfTwo - integerPart;
@@ -78,7 +78,7 @@ public final class PeriodogramMaker {
   	//  Define number of bins as a power-of-two
   	double n = Math.log(nDataBins)/Math.log(2);
   	double exp = Math.ceil(n);
-  	int nPowerOfTwoBins = (int) Math.pow(2, exp);
+  	int nPowerOfTwoBins = (int) Math.pow(2, exp); // rounds exponent up so nBins = 2^n
 	//  Keep the original number of bins
 	//int nPowerOfTwoBins = nDataBins;
 	//
@@ -92,8 +92,8 @@ public final class PeriodogramMaker {
 
  	//  Define test frequencies
  	double timeBinWidth = duration/nPowerOfTwoBins;
-	double nuMin = 1d/duration;
-	double nuMax = 1d/(2*timeBinWidth);
+	double nuMin = 1d/duration; // smallest possible frequency
+	double nuMax = 1d/(2*timeBinWidth); // largest possible frequency
 	double[] testFreqs = PeriodogramUtils.getFourierFrequencies(nuMin, nuMax, duration, samplingFactor);
 	//  Do the FFT
 	//  Using FFT.java
